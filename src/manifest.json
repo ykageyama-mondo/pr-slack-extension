@@ -8,9 +8,8 @@
     "type": "module"
   },
   "content_scripts": [{
-    "matches": [ "https://github.com/*/pull/*"],
+    "matches": ["https://github.com/*/pull/*"],
     "js": ["contentScript.js"]
   }],
-  "action": {},
-  "permissions": ["offscreen", "clipboardWrite", "contextMenus", "activeTab"]
+  "permissions": ["offscreen", "clipboardWrite"]
 }

@@ -1,7 +1,6 @@
 chrome.runtime.onMessage.addListener(handleMessages);
 
 async function handleMessages(request, _sender, sendResponse) {
-console.log('🚀 ~ file: contentScript.js:4 ~ handleMessages ~ request:', request)
   if (request.message === 'get-content') {
     try {
       const content = getContent()
