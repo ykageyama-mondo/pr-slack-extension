@@ -12,5 +12,5 @@
     "js": ["contentScript.js"]
   }],
   "action": {},
-  "permissions": ["offscreen", "clipboardWrite", "contextMenus", "activeTab"]
+  "permissions": ["offscreen", "clipboardWrite", "activeTab"]
 }

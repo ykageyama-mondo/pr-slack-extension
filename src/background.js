@@ -1,14 +1,3 @@
-chrome.contextMenus.create({
-  contexts: ['all'],
-  id: 'copy-pr-as-slack',
-  title: 'Copy PR as Slack Message',
-  documentUrlPatterns: ['https://github.com/*/pull/*'],
-})
-
-chrome.contextMenus.onClicked.addListener(async () => {
-  await copyPrAsSlack()
-})
-
 chrome.action.onClicked.addListener(async () => {
   await copyPrAsSlack()
 });
