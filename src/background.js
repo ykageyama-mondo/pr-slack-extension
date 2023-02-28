@@ -1,7 +1,3 @@
-chrome.action.onClicked.addListener(async () => {
-  await copyPrAsSlack()
-});
-
 chrome.runtime.onMessage.addListener(async (request) => {
   if (request.message === 'copy-click')
     await copyPrAsSlack()
@@ -32,7 +28,7 @@ async function addToClipboard(value) {
 
 const MAX_DESC_LEN = 3
 
-export const formatMessage = ({
+const formatMessage = ({
   url,
   title,
   comment
