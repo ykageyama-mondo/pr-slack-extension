@@ -9,7 +9,8 @@
   },
   "content_scripts": [{
     "matches": ["https://github.com/*/pull/*"],
-    "js": ["contentScript.js"]
+    "js": ["contentScript.js"],
+    "run_at": "document_end"
   }],
   "permissions": ["offscreen", "clipboardWrite"]
 }
