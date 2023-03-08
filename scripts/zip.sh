@@ -1,1 +1,1 @@
-zip -r pr-slack-extension.zip ./src
+cd ./src && zip -r ../pr-slack-extension.zip .
