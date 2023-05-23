@@ -27,9 +27,6 @@ async function addToClipboard(value) {
 }
 
 const MAX_DESC_LEN = 100
-const MAX_EMOJI_LEN = 3
-
-const emojiList = [':party_blob:',':partyparrot:']
 
 const formatMessage = ({
   url,
@@ -39,8 +36,7 @@ const formatMessage = ({
   const [_tld, org, repo, _p, id] = url.replace('https://', '').split('/')
 
   const repoHeader = `_${org} / ${repo}_`
-  const emojiPart = Array.from({length: Math.ceil(Math.random() * MAX_EMOJI_LEN)}, () =>  emojiList[Math.floor(Math.random() * emojiList.length)])
-  const prHeader = `${emojiPart.join('')} *[${title}  #${id}](${url})* ${emojiPart.reverse().join('')}`
+  const prHeader = `*[${title}  #${id}](${url})*`
 
   const descParts = comment.startsWith('No description provided') ? [] : comment.split('\n')
   const relev = descParts.length > MAX_DESC_LEN ? [...descParts.slice(0, MAX_DESC_LEN), '...'] : descParts
