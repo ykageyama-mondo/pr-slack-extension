@@ -53,7 +53,8 @@ const formatMessage = ({
   const [_, org, repo, id] = url.match(prHrefRegex)
 
   const repoHeader = `_${org} / ${repo}_`
-  const prHeader = `*[${title}  #${id}](${url})*`
+  const parsedTitle = title.replaceAll(/\<[\/]{0,1}code\>/g, '`')
+  const prHeader = `*[${parsedTitle}  #${id}](${url})*`
 
   const nodeTree = comment.cloneNode(true)
 
