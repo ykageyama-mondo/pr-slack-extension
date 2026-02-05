@@ -175,7 +175,7 @@ function getContent() {
   const descId = `pullrequest-${prId}`
 
   const url = window.location.href
-  const title = document.body.querySelector('bdi.markdown-title').innerHTML
+  const title = document.body.querySelector('h1[data-component="PH_Title"]').firstChild.innerHTML
   const comment = document.body.querySelector(`div#${descId} div.comment-body`)
 
   const message = formatMessage({
@@ -188,15 +188,18 @@ const getDiscussionHeader = () => document.body.querySelector('div#partial-discu
 
 let copyBtn
 const createCopyBtn = () => {
-  const cont = document.body.querySelector('div.gh-header-actions')
-  const editBtnClassName = cont.querySelector('button[aria-label*="Edit"]').className
-  copyBtn = document.createElement('button')
-  copyBtn.className = editBtnClassName.split(' ').filter(c => !c.includes('edit')).join(' ')
+  const cont = document.body.querySelector('div[data-component="PH_Actions"]')
+  const firstButton = cont.querySelector('button')
+  const buttonClassName = firstButton.className
+  // copyBtn = document.createElement('button')
+  // copyBtn.className = buttonClassName.split(' ').filter(c => !c.includes('edit')).join(' ')
+  copyBtn = firstButton.cloneNode()
   copyBtn.innerText = 'Copy'
   copyBtn.addEventListener('click', async (e) => {
     e.stopPropagation()
     getContent()
   })
-  cont.prepend(copyBtn)
+  const buttonCont = firstButton.parentElement
+  buttonCont.prepend(copyBtn)
 }
 
