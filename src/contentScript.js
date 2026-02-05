@@ -192,8 +192,6 @@ const createCopyBtn = () => {
   const cont = document.body.querySelector('div[data-component="PH_Actions"]')
   const firstButton = cont.querySelector('button')
   const buttonClassName = firstButton.className
-  // copyBtn = document.createElement('button')
-  // copyBtn.className = buttonClassName.split(' ').filter(c => !c.includes('edit')).join(' ')
   copyBtn = firstButton.cloneNode()
   copyBtn.innerText = 'Copy'
   copyBtn.addEventListener('click', async (e) => {
