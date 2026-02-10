@@ -1,5 +1,8 @@
 const MAX_DESC_ROWS = 10
 
+let copyBtn
+let failures = 0
+
 window.addEventListener('load', mount, {
   once: true,
 })
@@ -8,13 +11,23 @@ const prHrefRegex = /^https:\/\/github\.com\/(.+)\/(.+)\/pull\/([0-9]+)$/
 function mount() {
   const observer = new MutationObserver((ele) => {
     if (prHrefRegex.test(document.location.href)) {
-      if (!copyBtn)
-        createCopyBtn()
+      if (!copyBtn) {
+        try {
+          createCopyBtn()
+        } catch  {
+          failures++
+        }
+      }
     } else {
       if (copyBtn) {
         copyBtn.remove()
         copyBtn = undefined
+        failures = 0
       }
+    }
+    if (failures > 10) {
+      observer.disconnect()
+      throw new Error('Failed to create PR copy button')
     }
   })
   observer.observe(document.body, {childList: true, subtree: true, attributes: true})
@@ -187,8 +200,27 @@ function getContent() {
 
 const getDiscussionHeader = () => document.body.querySelector('div#partial-discussion-header')
 
-let copyBtn
 const createCopyBtn = () => {
+  try {
+    reactCreate()
+  } catch (error) {
+    legacyCreate()
+  }
+}
+
+const legacyCreate = () => {
+  const cont = document.body.querySelector('div.gh-header-actions')
+  const editBtnClassName = cont.querySelector('button[aria-label*="Edit"]').className
+  copyBtn = document.createElement('button')
+  copyBtn.className = editBtnClassName.split(' ').filter(c => !c.includes('edit')).join(' ')
+  copyBtn.innerText = 'Copy'
+  copyBtn.addEventListener('click', async (e) => {
+    e.stopPropagation()
+    getContent()
+  })
+  cont.prepend(copyBtn)
+}
+const reactCreate = () => {
   const cont = document.body.querySelector('div[data-component="PH_Actions"]')
   const firstButton = cont.querySelector('button')
   const buttonClassName = firstButton.className
@@ -201,4 +233,3 @@ const createCopyBtn = () => {
   const buttonCont = firstButton.parentElement
   buttonCont.prepend(copyBtn)
 }
-
