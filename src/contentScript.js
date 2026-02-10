@@ -185,11 +185,17 @@ const formatMessage = ({
 
 function getContent() {
 
+  let title
+
+  try {
+    title = reactGetTitle()
+  } catch (error) {
+    title = legacyGetTitle()
+  }
+
   const prId = document.head.querySelector('meta[name~=hovercard-subject-tag][content]').content.split(':')[1]
   const descId = `pullrequest-${prId}`
-
   const url = window.location.href
-  const title = document.body.querySelector('h1[data-component="PH_Title"]').firstChild.innerHTML
   const comment = document.body.querySelector(`div#${descId} div.comment-body`)
 
   const message = formatMessage({
@@ -197,6 +203,9 @@ function getContent() {
   })
   window.navigator.clipboard.writeText(message)
 }
+
+const legacyGetTitle = () => document.body.querySelector('bdi.markdown-title').innerHTML
+const reactGetTitle = () => document.body.querySelector('h1[data-component="PH_Title"]').firstChild.innerHTML
 
 const getDiscussionHeader = () => document.body.querySelector('div#partial-discussion-header')
 
