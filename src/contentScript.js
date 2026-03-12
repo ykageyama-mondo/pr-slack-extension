@@ -231,7 +231,7 @@ const legacyCreate = () => {
 }
 const reactCreate = () => {
   const cont = document.body.querySelector('div[data-component="PH_Actions"]')
-  const firstButton = cont.querySelector('button')
+  const firstButton = Array.from(cont.querySelectorAll('button')).at(-1)
   const buttonClassName = firstButton.className
   copyBtn = firstButton.cloneNode()
   copyBtn.innerText = 'Copy'
