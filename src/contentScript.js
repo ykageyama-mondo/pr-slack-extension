@@ -11,7 +11,7 @@ const prHrefRegex = /^https:\/\/github\.com\/(.+)\/(.+)\/pull\/([0-9]+)$/
 function mount() {
   const observer = new MutationObserver((ele) => {
     if (prHrefRegex.test(document.location.href)) {
-      if (!copyBtn) {
+      if (!copyBtn || !copyBtn.isConnected) {
         try {
           createCopyBtn()
         } catch  {
