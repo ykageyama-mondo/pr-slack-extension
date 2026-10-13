@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PR to Slack options</title>
+    <style>
+      body { font-family: system-ui, sans-serif; min-width: 320px; padding: 8px; background: #1e1e1e; color: #e6e6e6; color-scheme: dark; }
+      label { display: block; margin: 8px 0; }
+      input[type="number"] { width: 4em; }
+      small { color: #999; display: block; }
+      #status { color: #2a7; height: 1.2em; }
+    </style>
+  </head>
+  <body>
+    <label>
+      <input type="checkbox" id="includeDescription" />
+      Include PR description
+    </label>
+    <label>
+      Max description lines
+      <input type="number" id="maxRows" min="0" step="1" />
+      <small>Set to 0 for no limit.</small>
+    </label>
+    <div id="status"></div>
+    <script src="options.js"></script>
+  </body>
+</html>

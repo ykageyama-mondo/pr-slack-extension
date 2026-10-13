@@ -1,4 +1,16 @@
-const MAX_DESC_ROWS = 10
+const DEFAULT_SETTINGS = {
+  includeDescription: true,
+  maxRows: 10, // 0 = no limit
+}
+
+const loadSettings = async () => {
+  try {
+    const stored = await chrome.storage.sync.get(DEFAULT_SETTINGS)
+    return {...DEFAULT_SETTINGS, ...stored}
+  } catch {
+    return DEFAULT_SETTINGS
+  }
+}
 
 const BTN_ATTR = 'data-pr-slack-copy'
 const prPathRegex = /^\/([^/]+)\/([^/]+)\/pull\/(\d+)\/?$/
@@ -92,11 +104,13 @@ const typeToMd = (item) => {
  * @param {string} props.url
  * @param {string} props.title
  * @param {HTMLElement | null} props.comment
+ * @param {number} props.maxRows
  */
 const formatMessage = ({
   url,
   title,
-  comment
+  comment,
+  maxRows,
 }) => {
   const [_, org, repo, id] = new URL(url).pathname.match(prPathRegex)
 
@@ -238,8 +252,8 @@ const formatMessage = ({
       parts.push(`${padding}${content}`)
     }
   }
-  const isLong = parts.length > MAX_DESC_ROWS
-  const trimmed = isLong ? [...parts.slice(0, MAX_DESC_ROWS), '...'] : parts
+  const isLong = maxRows > 0 && parts.length > maxRows
+  const trimmed = isLong ? [...parts.slice(0, maxRows), '...'] : parts
   const description = trimmed.join('\n').split('\n').map(l => `> ${l}`).join('\n')
 
   return [
@@ -302,10 +316,12 @@ const copyText = async (text) => {
 
 async function getContent() {
   const url = window.location.origin + window.location.pathname.replace(/\/$/, '')
+  const settings = await loadSettings()
   const message = formatMessage({
     url,
     title: getTitle(),
-    comment: getDescription(),
+    comment: settings.includeDescription ? getDescription() : null,
+    maxRows: settings.maxRows,
   })
   await copyText(message)
 }

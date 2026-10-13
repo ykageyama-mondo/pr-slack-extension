@@ -1,7 +1,7 @@
 {
   "name": "Github PR to Slack Message",
   "description": "Adds a button and context menu to copy a Github pull request as a slack message you can post to your team.",
-  "version": "1.7",
+  "version": "1.8",
   "manifest_version": 3,
   "content_scripts": [
     {
@@ -15,8 +15,17 @@
     }
   ],
   "permissions": [
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
+  "action": {
+    "default_popup": "options.html",
+    "default_title": "PR to Slack options"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "{e0ce7a3a-b3ca-4b56-b383-46c21e24ff59}"
