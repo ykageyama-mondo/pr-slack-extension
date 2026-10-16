@@ -41,11 +41,15 @@ function ensureButton() {
 }
 
 function mount() {
-  new MutationObserver(schedule).observe(document.body, {childList: true, subtree: true})
+  // Observe the root, not body: Turbo swaps out document.body on navigation,
+  // which would leave an observer attached to the old, detached body.
+  new MutationObserver(schedule).observe(document.documentElement, {childList: true, subtree: true})
   for (const evt of ['turbo:render', 'turbo:load', 'popstate']) {
     document.addEventListener(evt, schedule)
     window.addEventListener(evt, schedule)
   }
+  // Safety net for re-renders that happen without any event we listen to
+  setInterval(schedule, 1000)
   schedule()
 }
 
