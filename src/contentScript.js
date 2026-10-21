@@ -285,6 +285,7 @@ const titleToText = (el) => {
 const getTitle = () => {
   const el =
     document.body.querySelector('h1[data-component="PH_Title"]')?.firstElementChild ??
+    document.body.querySelector('[data-component="TitleArea"] h1 .markdown-title') ??
     document.body.querySelector('bdi.markdown-title')
   if (!el) throw new Error('PR title not found')
   return titleToText(el).trim()
